@@ -1,43 +1,52 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-    <title>Trivia</title>
+    <meta charset="UTF-8">
+    <title>Trivia de Cultura General</title>
 
     <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
-    
+
 </head>
 <body>
 
+<div class="contenedor">
+
 {% if terminado %}
 
-    <h1>¡Trivia finalizada!</h1>
+    <h1>🎉 ¡Terminaste la Trivia! 🎉</h1>
 
-    <h2>Puntaje: {{ puntaje }} / {{ total }}</h2>
+    <h2 class="resultado">Puntaje: {{ puntaje }} / {{ total }}</h2>
 
     {% if puntaje == total %}
-        <h3>¡Excelente!</h3>
+        <h3>🏆 ¡Excelente! Respondiste todo correctamente.</h3>
     {% elif puntaje >= (total * 0.6) %}
-        <h3>¡Muy bien!</h3>
+        <h3>👏 ¡Muy bien! Tuviste un gran resultado.</h3>
     {% else %}
-        <h3>Flojo...</h3>
+        <h3>💪 ¡Seguí practicando! Seguro la próxima te va mejor.</h3>
     {% endif %}
 
 {% else %}
 
+    <h1>🧠 Trivia de Cultura General 💙</h1>
+
     <h2>{{ pregunta }}</h2>
 
     <form method="POST">
+
         {% for opcion in opciones %}
+        <label class="opcion">
             <input type="radio" name="respuesta" value="{{ opcion }}" required>
-            {{ opcion }}<br>
+            {{ opcion }}
+        </label>
         {% endfor %}
 
-        <br>
-
         <button type="submit">Responder</button>
+
     </form>
 
 {% endif %}
+
+</div>
 
 </body>
 </html>
