@@ -15,8 +15,6 @@ preguntas = [
 
 @app.route("/", methods=["GET", "POST"])
 def inicio():
-    @app.route("/", methods=["GET", "POST"])
-def inicio():
 
     if "indice" not in session:
         session["indice"] = 0
