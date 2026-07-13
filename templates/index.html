@@ -5,18 +5,36 @@
 </head>
 <body>
 
-<h2>{{ pregunta }}</h2>
+{% if terminado %}
 
-<form method="POST">
-    {% for opcion in opciones %}
-        <input type="radio" name="respuesta" value="{{ opcion }}" required>
-        {{ opcion }}<br>
-    {% endfor %}
-    <br>
-    <button type="submit">Responder</button>
-</form>
+    <h1>¡Trivia finalizada!</h1>
 
-<h3>{{ resultado }}</h3>
+    <h2>Puntaje: {{ puntaje }} / {{ total }}</h2>
+
+    {% if puntaje == total %}
+        <h3>¡Excelente!</h3>
+    {% elif puntaje >= (total * 0.6) %}
+        <h3>¡Muy bien!</h3>
+    {% else %}
+        <h3>Flojo...</h3>
+    {% endif %}
+
+{% else %}
+
+    <h2>{{ pregunta }}</h2>
+
+    <form method="POST">
+        {% for opcion in opciones %}
+            <input type="radio" name="respuesta" value="{{ opcion }}" required>
+            {{ opcion }}<br>
+        {% endfor %}
+
+        <br>
+
+        <button type="submit">Responder</button>
+    </form>
+
+{% endif %}
 
 </body>
 </html>
