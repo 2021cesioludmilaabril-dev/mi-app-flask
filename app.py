@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request, session, redirect, url_for
+from flask import Flask, render_template, request, session
 from random import shuffle
 
 app = Flask(__name__)
 app.secret_key = "trivia123"
+
 preguntas = [
     ("¿Dónde queda Río Gallegos?", ["Santa Fe", "Santa Cruz", "San Luis"], "Santa Cruz"),
     ("¿Cuál es el resultado de hacer 5+5x5+3?", ["53", "33", "80"], "33"),
@@ -30,7 +31,6 @@ def inicio():
 
     if session["indice"] >= len(preguntas):
         puntaje = session["puntaje"]
-
         session.clear()
 
         return render_template(
