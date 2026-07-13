@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Trivia</title>
+</head>
+<body>
+
+<h2>{{ pregunta }}</h2>
+
+<form method="POST">
+    {% for opcion in opciones %}
+        <input type="radio" name="respuesta" value="{{ opcion }}" required>
+        {{ opcion }}<br>
+    {% endfor %}
+    <br>
+    <button type="submit">Responder</button>
+</form>
+
+<h3>{{ resultado }}</h3>
+
+</body>
+</html>
