@@ -1,8 +1,8 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, session, redirect, url_for
 from random import shuffle
 
 app = Flask(__name__)
-
+app.secret_key = "trivia123"
 preguntas = [
     ("¿Dónde queda Río Gallegos?", ["Santa Fe", "Santa Cruz", "San Luis"], "Santa Cruz"),
     ("¿Cuál es el resultado de hacer 5+5x5+3?", ["53", "33", "80"], "33"),
@@ -15,24 +15,43 @@ preguntas = [
 
 @app.route("/", methods=["GET", "POST"])
 def inicio():
-    resultado = ""
+    @app.route("/", methods=["GET", "POST"])
+def inicio():
 
-    pregunta, opciones, correcta = preguntas[0]
+    if "indice" not in session:
+        session["indice"] = 0
+        session["puntaje"] = 0
+
+    if request.method == "POST":
+        correcta = preguntas[session["indice"]][2]
+
+        if request.form["respuesta"] == correcta:
+            session["puntaje"] += 1
+
+        session["indice"] += 1
+
+    if session["indice"] >= len(preguntas):
+        puntaje = session["puntaje"]
+
+        session.clear()
+
+        return render_template(
+            "index.html",
+            terminado=True,
+            puntaje=puntaje,
+            total=len(preguntas)
+        )
+
+    pregunta, opciones, correcta = preguntas[session["indice"]]
+
     opciones_mezcladas = opciones[:]
     shuffle(opciones_mezcladas)
 
-    if request.method == "POST":
-        elegida = request.form["respuesta"]
-        if elegida == correcta:
-            resultado = "¡Correcto!"
-        else:
-            resultado = "Incorrecto."
-
     return render_template(
         "index.html",
+        terminado=False,
         pregunta=pregunta,
-        opciones=opciones_mezcladas,
-        resultado=resultado
+        opciones=opciones_mezcladas
     )
 
 if __name__ == "__main__":
