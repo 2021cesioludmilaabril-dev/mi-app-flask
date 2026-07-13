@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, session
+from flask import Flask, render_template, request, session, redirect
 from random import shuffle
 
 app = Flask(__name__)
@@ -51,6 +51,9 @@ def inicio():
         pregunta=pregunta,
         opciones=opciones_mezcladas
     )
-
+@app.route("/reiniciar")
+def reiniciar():
+    session.clear()
+    return redirect("/")
 if __name__ == "__main__":
     app.run(debug=True)
